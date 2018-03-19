@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { NavMenuComponent } from './navmenu/navmenu.component';
 import { HomeComponent } from './home/home.component';
+import { VehicleService } from './services/vehicle.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { HomeComponent } from './home/home.component';
       { path: '**', redirectTo: 'home' }
   ])
   ],
-  providers: [],
+  providers: [VehicleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
