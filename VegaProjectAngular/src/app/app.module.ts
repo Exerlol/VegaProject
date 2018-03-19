@@ -2,14 +2,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { NavMenuComponent } from './navmenu/navmenu.component';
 import { HomeComponent } from './home/home.component';
 import { VehicleService } from './services/vehicle.service';
+import { AppErrorHandler } from './app-error-handler';
 
 @NgModule({
   declarations: [
@@ -20,6 +24,8 @@ import { VehicleService } from './services/vehicle.service';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
     FormsModule,
     HttpModule,
     RouterModule.forRoot([
@@ -30,7 +36,9 @@ import { VehicleService } from './services/vehicle.service';
       { path: '**', redirectTo: 'home' }
   ])
   ],
-  providers: [VehicleService],
+  providers: [
+    VehicleService,
+    {provide:ErrorHandler,useClass:AppErrorHandler}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

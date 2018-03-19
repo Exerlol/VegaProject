@@ -19,4 +19,8 @@ export class VehicleService {
     return this._http.get(this._baseUrl + 'vehicle/get/' + id).map(res => res.json());
   }
 
+  createVehicle(vehicle:any){
+    return this._http.post(this._baseUrl + 'vehicle/create',vehicle).map(res => res.json());
+  }
+
 }

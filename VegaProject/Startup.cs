@@ -48,7 +48,7 @@ namespace VegaProject
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors(builder =>
-            builder.WithOrigins("http://localhost:4200"));
+            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.Use(async (context, next) => {
                 await next();

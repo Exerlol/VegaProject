@@ -1,8 +1,8 @@
 <h1>New Vehicle</h1>
-<form #f="ngForm" (ngSubmit)="submit(f.value)">
+<form #f="ngForm" (ngSubmit)="submit(f.value)" novalidate>
   <div class="form-group">
     <label for="make">Make</label>
-    <select id="make" [ngModel]="vehicle?.makeId" name="makeId" class="form-control" (change)="makeChanged($event.target.value)" >
+    <select id="make" [ngModel]="vehicle?.make?.id" name="makeId" class="form-control" (change)="makeChanged($event.target.value)" >
       <option value=""></option>  
       <option [value]="make.id" *ngFor="let make of makes">
         {{ make.name }}
@@ -11,18 +11,20 @@
   </div>
   <div class="form-group">
     <label for="model">Model</label>
-    <select id="model" [ngModel]="vehicle?.model?.id" name="model" class="form-control">
+    <select #modelLocal="ngModel" id="model" [ngModel]="vehicle?.model?.id" name="modelId" class="form-control" required>
       <option value=""></option>  
       <option  [value]="model.id" *ngFor="let model of models">
         {{ model.name }}
       </option>
     </select>
+    <div *ngIf="modelLocal.errors?.required && modelLocal.touched" class="text-danger">
+      Model is required field.
+    </div>
   </div>
   <h2>Features</h2>
   <div class="form-group">
-    {{vehicle | json}}
     <div class="form-check" *ngFor="let feature of features">
-      <input class="form-check-input" type="checkbox" name="feature{{feature.id}}" [ngModel]="booleanFunction(feature)"  (change)="updateChecked(feature, $event)">
+      <input class="form-check-input" type="checkbox" name="feature{{feature.id}}" (change)="updateChecked(feature, $event)">
       <label class="form-check-label">
         {{ feature.name }}
       </label>
@@ -43,15 +45,21 @@
   <fieldset ngModelGroup="contact">
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" ngModel class="form-control" name="name" id="name" placeholder="Contact name">
+    <input #name="ngModel" type="text" ngModel class="form-control" name="name" id="name" placeholder="Contact name" required />
+  </div>
+  <div *ngIf="name.errors?.required && name.touched" class="text-danger">
+    Contact name is required field.
   </div>
   <div class="form-group">
     <label for="phone">Phone</label>
-    <input type="text" ngModel class="form-control" name="phone" id="phone" placeholder="Contact phone">
+    <input #phone="ngModel" type="text" ngModel class="form-control" name="phone" id="phone" placeholder="Contact phone" required />
+  </div>
+  <div *ngIf="phone.errors?.required && phone.touched" class="text-danger">
+    Contact phone is required field.
   </div>
   <div class="form-group">
     <label for="email">Email</label>
-    <input type="text" ngModel class="form-control" name="email" id="email" placeholder="Contact email">
+    <input type="text" ngModel class="form-control" name="email" id="email" placeholder="Contact email" />
   </div>
 </fieldset>
   <input type="submit" value="Submit form" class="btn btn-success">

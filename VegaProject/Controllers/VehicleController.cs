@@ -54,6 +54,7 @@ namespace VegaProject.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateVechicle([FromBody] SaveVehicleResource vehicleResource)
         {
+            throw new Exception();
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

@@ -3,6 +3,7 @@ import { VehicleService } from '../services/vehicle.service';
 
 import { Make, Model,Feature } from '../Interfaces/Interfaces';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -20,17 +21,17 @@ export class VehicleFormComponent implements OnInit {
   constructor(private _vehicleService:VehicleService,private _route:ActivatedRoute) {
          this.id = this._route.snapshot.params['id'];
   }
-  isChecked(feature:Feature){
-    return false;
-    // if(this.vehicle.features)
-    //     this.vehicle.features.findIndex((f:any) => f.id === feature.id) > -1;
-  }
   updateChecked(feature:Feature, event:any) {
     this.checkedFeatures.push(feature.id);
   }
-  booleanFunction(feature:Feature){
-    return true;
-  }
+  // booleanFunction(featureId:number){
+  //   console.log(featureId);
+  //   if(this.vehicle.features)
+  //   console.log(this.vehicle.features.findIndex((f:any) => f.id === featureId));
+  //   //  if(this.vehicle.features)
+  //   //      this.vehicle.features.findIndex((f:any) => f.id === featureId) > -1;
+  //   return true;
+  // }
 
   ngOnInit() {
     this._vehicleService.getMakes().subscribe(makes => {
@@ -54,8 +55,12 @@ export class VehicleFormComponent implements OnInit {
 
   submit(form: any){
     form["features"] = this.checkedFeatures;
-    delete form['make'];
+    this._vehicleService.createVehicle(form).subscribe(
+      x => console.log(x)
+    );
+    //this.toastr.success('Form posted!', 'Success');
     console.log(form);
+    
     
   }
 }
